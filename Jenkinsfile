@@ -1,23 +1,21 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_HOST = 'npipe:////./pipe/dockerDesktopLinuxEngine'
-    }
-
     stages {
-        stage('Docker Context Test') {
+
+        stage('Docker Login Test') {
             steps {
-                bat '''
-                    echo ===== DOCKER CONTEXT =====
-                    docker context show
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-credentials',
+                    usernameVariable: 'DOCKER_USERNAME',
+                    passwordVariable: 'DOCKER_PASSWORD'
+                )]) {
 
-                    echo ===== DOCKER VERSION =====
-                    docker --version
-
-                    echo ===== DOCKER INFO =====
-                    docker info
-                '''
+                    bat '''
+                        echo Docker username: %DOCKER_USERNAME%
+                        echo %DOCKER_PASSWORD% | docker login -u "%DOCKER_USERNAME%" --password-stdin
+                    '''
+                }
             }
         }
     }
