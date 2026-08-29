@@ -2,21 +2,23 @@ pipeline {
     agent any
 
     stages {
-
-        stage('Docker Login Test') {
+        stage('Docker Environment Check') {
             steps {
-                withCredentials([usernamePassword(
-                    credentialsId: 'dockerhub-credentials',
-                    usernameVariable: 'DOCKER_USERNAME',
-                    passwordVariable: 'DOCKER_PASSWORD'
-                )]) {
+                bat '''
+                    echo ===== DOCKER VERSION =====
+                    docker --version
 
-                    bat '''
-                        echo Docker username: %DOCKER_USERNAME%
-                        docker logout
-                        echo %DOCKER_PASSWORD% | docker login -u "%DOCKER_USERNAME%" --password-stdin
-                    '''
-                }
+                    echo ===== DOCKER CONTEXT =====
+                    docker context show
+
+                    echo ===== DOCKER INFO PROXY =====
+                    docker info
+
+                    echo ===== PROXY ENVIRONMENT =====
+                    set HTTP_PROXY
+                    set HTTPS_PROXY
+                    set NO_PROXY
+                '''
             }
         }
     }
