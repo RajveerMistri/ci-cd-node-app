@@ -19,7 +19,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 echo 'Building Docker image...'
-                bat 'docker build -t ci-cd-node-app:latest .'
+                bat 'docker buildx build --load -t ci-cd-node-app:latest .'
             }
         }
 
