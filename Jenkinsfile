@@ -1,23 +1,22 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_HOST = 'npipe:////./pipe/dockerDesktopLinuxEngine'
+    }
+
     stages {
-        stage('Docker Environment Check') {
+        stage('Docker Context Test') {
             steps {
                 bat '''
-                    echo ===== DOCKER VERSION =====
-                    docker --version
-
                     echo ===== DOCKER CONTEXT =====
                     docker context show
 
-                    echo ===== DOCKER INFO PROXY =====
-                    docker info
+                    echo ===== DOCKER VERSION =====
+                    docker --version
 
-                    echo ===== PROXY ENVIRONMENT =====
-                    set HTTP_PROXY
-                    set HTTPS_PROXY
-                    set NO_PROXY
+                    echo ===== DOCKER INFO =====
+                    docker info
                 '''
             }
         }
