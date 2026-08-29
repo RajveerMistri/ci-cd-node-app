@@ -13,6 +13,7 @@ pipeline {
             steps {
                 echo 'Building Node.js application...'
                 bat 'docker --version'
+                bat 'docker buildx version'
             }
         }
 
