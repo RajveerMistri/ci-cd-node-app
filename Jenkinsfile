@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     stages {
+
         stage('Checkout') {
             steps {
                 echo 'Checking out source code...'
@@ -11,12 +12,14 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building Node.js application...'
+                bat 'docker --version'
             }
         }
 
         stage('Docker Build') {
             steps {
                 echo 'Building Docker image...'
+                bat 'docker build -t ci-cd-node-app:latest .'
             }
         }
 
