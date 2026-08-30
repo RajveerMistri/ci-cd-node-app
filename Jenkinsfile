@@ -14,10 +14,11 @@ pipeline {
         }
 
         stage('Test') {
-            steps {
-                bat 'npm test'
-            }
-        }
+    steps {
+        bat 'npm ci'
+        bat 'npm test'
+    }
+}
 
         stage('Build Docker Image') {
             steps {
