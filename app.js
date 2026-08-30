@@ -1,3 +1,4 @@
+
 const express = require("express");
 
 const app = express();
@@ -7,6 +8,10 @@ app.get("/", (req, res) => {
     res.send("Hello! CI/CD pipeline is Working Successfully!");
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
+}
+
+module.exports = app;
