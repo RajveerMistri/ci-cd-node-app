@@ -26,17 +26,13 @@ pipeline {
             }
         }
 
-        stage('Docker Login') {
-            steps {
-                withCredentials([usernamePassword(
-                    credentialsId: 'dockerhub-credentials',
-                    usernameVariable: 'DOCKER_USERNAME',
-                    passwordVariable: 'DOCKER_PASSWORD'
-                )]) {
-                    bat 'docker login -u "%DOCKER_USERNAME%" -p "%DOCKER_PASSWORD%"'
-                }
-            }
-        }
+        stage('Docker Network Test') {
+    steps {
+        bat 'docker info'
+        bat 'docker context show'
+        bat 'docker version'
+    }
+}
 
         stage('Push Docker Image') {
             steps {
